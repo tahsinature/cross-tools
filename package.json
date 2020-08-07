@@ -1,0 +1,63 @@
+{
+  "name": "cross-tools",
+  "description": "Cross-platform fundamental tools for developers",
+  "version": "0.0.0",
+  "author": "Tahsin @tahsinature",
+  "bin": {
+    "cross-tools": "./bin/run"
+  },
+  "bugs": "https://github.com/tahsinature/cross-tools/issues",
+  "dependencies": {
+    "@oclif/command": "^1.8.0",
+    "@oclif/config": "^1.17.0",
+    "@oclif/plugin-help": "^3.2.0",
+    "@types/cli-table": "^0.3.0",
+    "@types/detect-port": "^1.3.0",
+    "@types/dockerode": "^2.5.34",
+    "@types/pidusage": "^2.0.1",
+    "@types/prompts": "^2.0.8",
+    "@types/shelljs": "^0.8.8",
+    "cli-table": "^0.3.1",
+    "colors": "^1.4.0",
+    "detect-port": "^1.3.0",
+    "dockerode": "^3.2.1",
+    "find-process": "^1.4.3",
+    "fuzzy": "^0.1.3",
+    "internal-ip": "^6.1.0",
+    "pidusage": "^2.0.21",
+    "prompts": "^2.3.2",
+    "public-ip": "^4.0.2",
+    "shelljs": "^0.8.4",
+    "tree-kill": "^1.2.2",
+    "tslib": "^1.13.0"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.22.2",
+    "@types/node": "^10.17.28",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "homepage": "https://github.com/tahsinature/cross-tools",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "oclif": {
+    "bin": "cross-tools"
+  },
+  "repository": "tahsinature/cross-tools",
+  "scripts": {
+    "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}
