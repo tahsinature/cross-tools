@@ -2,37 +2,45 @@
 
 Cross-platform fundamental tools for developers
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/cross-tools.svg)](https://npmjs.org/package/cross-tools)
-[![Downloads/week](https://img.shields.io/npm/dw/cross-tools.svg)](https://npmjs.org/package/cross-tools)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/cross-tools)
+![GitHub issues](https://img.shields.io/github/issues/tahsinature/cross-tools)
+![platforms](https://img.shields.io/badge/platforms-macOS%20%E2%97%8F%20Windows%20%E2%97%8F%20Linux-blue)
 ![GitHub](https://img.shields.io/github/license/tahsinature/cross-tools)
 
 <!-- toc -->
 
 - [Usage](#usage)
-- [Commands](#commands)
+- [Features](#features)
 <!-- tocstop -->
 
-# Usage
+## Usage
 
 <!-- usage -->
 
-```sh-session
+```bash
 $ npm install -g cross-tools
-$ cross-tools COMMAND
-running command...
-$ cross-tools (-v|--version|version)
-cross-tools/0.0.0 darwin-x64 node-v12.13.0
-$ cross-tools --help [COMMAND]
-USAGE
-  $ cross-tools COMMAND
-...
+$ cross-tools
+```
+
+or.
+
+```bash
+$ npx cross-tools
 ```
 
 <!-- usagestop -->
 
-# Commands
+## Features
 
-<!-- commands -->
-
-<!-- commandsstop -->
+- Process & Port Tools
+  - Process Killer (By Port)
+  - Process Killer (By Pid)
+  - List Listening Ports (Beta)
+  - Port Checker (Beta)
+  - Create Server
+- Docker Tools
+  - Select containers
+  - Remove all containers
+  - Get my docker info
+- Network Tools
