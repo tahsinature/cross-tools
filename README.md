@@ -9,26 +9,23 @@ Cross-platform fundamental tools for developers
 ![GitHub](https://img.shields.io/github/license/tahsinature/cross-tools)
 
 <!-- toc -->
-
-- [Usage](#usage)
-- [Features](#features)
+* [cross-tools](#cross-tools)
 <!-- tocstop -->
 
 ## Usage
 
 <!-- usage -->
-
-```bash
+```sh-session
 $ npm install -g cross-tools
-$ cross-tools
+$ cross-tools COMMAND
+running command...
+$ cross-tools (-v|--version|version)
+cross-tools/0.0.0 darwin-x64 node-v12.13.0
+$ cross-tools --help [COMMAND]
+USAGE
+  $ cross-tools COMMAND
+...
 ```
-
-or.
-
-```bash
-$ npx cross-tools
-```
-
 <!-- usagestop -->
 
 ## Features

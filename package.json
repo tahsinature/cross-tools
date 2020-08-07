@@ -46,7 +46,10 @@
   ],
   "homepage": "https://github.com/tahsinature/cross-tools",
   "keywords": [
-    "oclif"
+    "cross-platform",
+    "docker-tools",
+    "port-tools",
+    "process-kill"
   ],
   "license": "MIT",
   "main": "lib/index.js",
