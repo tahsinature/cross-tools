@@ -20,7 +20,7 @@ $ npm install -g cross-tools
 $ cross-tools COMMAND
 running command...
 $ cross-tools (-v|--version|version)
-cross-tools/0.0.0 darwin-x64 node-v12.13.0
+cross-tools/1.0.0 darwin-x64 node-v12.13.0
 $ cross-tools --help [COMMAND]
 USAGE
   $ cross-tools COMMAND
