@@ -10,7 +10,8 @@ Cross-platform fundamental tools for developers
 
 <!-- toc -->
 
-- [cross-tools](#cross-tools)
+- [Usage](#usage)
+- [Features](#features)
 <!-- tocstop -->
 
 ## Usage

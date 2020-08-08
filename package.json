@@ -18,6 +18,7 @@
     "@types/ip": "^1.1.0",
     "@types/pidusage": "^2.0.1",
     "@types/prompts": "^2.0.8",
+    "@types/semver": "^7.3.1",
     "@types/shelljs": "^0.8.8",
     "axios": "^0.19.2",
     "cli-table": "^0.3.1",
@@ -28,8 +29,10 @@
     "find-process": "^1.4.3",
     "fuzzy": "^0.1.3",
     "ip": "^1.1.5",
+    "ora": "^5.0.0",
     "pidusage": "^2.0.21",
     "prompts": "^2.3.2",
+    "semver": "^7.3.2",
     "shelljs": "^0.8.4",
     "tslib": "^1.13.0"
   },
@@ -61,7 +64,8 @@
   "repository": "tahsinature/cross-tools",
   "scripts": {
     "prepack": "rm -rf lib && tsc -b",
-    "test": "echo NO TESTS"
+    "test": "echo NO TESTS",
+    "minify": "npx uglifyjs-folder lib -e -x .js -o lib"
   },
   "types": "lib/index.d.ts"
 }
