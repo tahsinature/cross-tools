@@ -36,11 +36,12 @@ $ npx cross-tools
 - Process & Port Tools
   - Process Killer (By Port)
   - Process Killer (By Pid)
+  - Create Server (For testing purpose)
   - List Listening Ports (Beta)
   - Port Checker (Beta)
-  - Create Server
 - Docker Tools
-  - Select containers
+  - Select containers (Take action)
   - Remove all containers
   - Get my docker info
 - Network Tools
+  - Get ip details
