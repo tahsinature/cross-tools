@@ -47,7 +47,7 @@ const utils = {
     };
     try {
       process.kill(pid);
-      console.log(colors.cyan("Process killed"));
+      console.log(colors.green("Process killed"));
     } catch (error) {
       console.log(colors.red(errorCodes[error.code]));
     }
@@ -160,6 +160,7 @@ class ProcessAndPorts extends Command {
           max: 65535,
           message: "Enter port that you want to listen to (1 - 65535)",
           validate: async (port) => {
+            if (!port) return `Please enter a port`;
             const suggestion = await detect(port);
             return suggestion === port || `Port is busy or should not use, suggested: ${colors.cyan(suggestion as any)}`;
           },
