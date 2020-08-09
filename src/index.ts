@@ -91,13 +91,13 @@ class CrossTools extends Command {
         spinner.stop();
       }
     } else {
-      spinner.start("Checking for update");
+      spinner.start(`Current Version: ${colors.yellow(`v${installed.version}`)}. Checking for update...`);
       const output = shell.exec(`npm show ${pkgName} time --json`, { silent: true }).stdout;
       spinner.stop();
       const latestVersion = Object.keys(JSON.parse(output)).reverse()[0];
       const hasUpdaate = semver.gt(latestVersion, installed.version);
       if (hasUpdaate) {
-        const { confirmed } = await utils.getConfirmation(`There is an update available. Do you want to update it now?`);
+        const { confirmed } = await utils.getConfirmation(`There is an update available ${colors.yellow(`(v${latestVersion})`)}. Do you want to update it now?`);
         if (confirmed) {
           spinner.text = `Updating ${pkgName}`;
           spinner.start();
