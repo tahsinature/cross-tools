@@ -1,18 +1,34 @@
 import { Command, flags } from "@oclif/command";
 import colors from "colors";
 import prompts from "prompts";
+
 import ProcessAndPorts from "./operations/processAndPorts";
 import DockerTools from "./operations/docker";
 import Network from "./operations/network";
+import Utility from "./operations/utility";
+
 import * as fuzzy from "fuzzy";
 import shell from "shelljs";
 import semver from "semver";
 import ora from "ora";
 
 const choices = [
-  { title: "Process & Port Tools", value: "process-and-ports", description: "Tools related to port and process" },
-  { title: "Docker Tools", value: "docker", description: "Some handy tools for docker" },
-  { title: "Network Tools", value: "network", description: "Network related handy tools" },
+  {
+    title: "Process & Port Tools",
+    value: "process-and-ports",
+    description: "Tools related to port and process",
+  },
+  {
+    title: "Docker Tools",
+    value: "docker",
+    description: "Some handy tools for docker",
+  },
+  {
+    title: "Network Tools",
+    value: "network",
+    description: "Network related handy tools",
+  },
+  { title: "Utilities", value: "utility", description: "Some other utilities" },
 ];
 
 const titles = choices.map((ele) => ele.title);
@@ -24,7 +40,9 @@ const promptOpt: prompts.PromptObject = {
   suggest(input: any) {
     const results = fuzzy.filter(input, titles);
     const filteredIndices = results.map((ele) => ele.index);
-    return choices.filter((choice, index) => filteredIndices.includes(index)) as any;
+    return choices.filter((choice, index) =>
+      filteredIndices.includes(index)
+    ) as any;
   },
   choices,
 };
@@ -63,6 +81,9 @@ class CrossTools extends Command {
       case "network":
         await Network.run();
         break;
+      case "utility":
+        await Utility.run();
+        break;
       default:
         console.log(colors.cyan("Oops. Hopefully next time"));
         break;
@@ -79,31 +100,52 @@ class CrossTools extends Command {
     const pkgName = "cross-tools";
 
     spinner.start(`Checking for local installation`);
-    const output = shell.exec("npm list -g --depth=0 --json", { silent: true }).stdout;
+    const output = shell.exec("npm list -g --depth=0 --json", { silent: true })
+      .stdout;
     spinner.stop();
     const installed = JSON.parse(output).dependencies[pkgName];
     if (!installed) {
-      const { confirmed } = await utils.getConfirmation(`Do you want to create this package locally?
-  ${colors.yellow(`(By doing so, you don't have to download it on every execution.)`)}`);
+      const {
+        confirmed,
+      } = await utils.getConfirmation(`Do you want to create this package locally?
+  ${colors.yellow(
+    `(By doing so, you don't have to download it on every execution.)`
+  )}`);
       if (confirmed) {
         spinner.start(`Installing ${pkgName} locally`);
         shell.exec(`npm i -g ${pkgName}@latest`, { silent: true }); // check for user input (like pass)
         spinner.stop();
       }
     } else {
-      spinner.start(`Current Version: ${colors.yellow(`v${installed.version}`)}. Checking for update...`);
-      const output = shell.exec(`npm show ${pkgName} time --json`, { silent: true }).stdout;
+      spinner.start(
+        `Current Version: ${colors.yellow(
+          `v${installed.version}`
+        )}. Checking for update...`
+      );
+      const output = shell.exec(`npm show ${pkgName} time --json`, {
+        silent: true,
+      }).stdout;
       spinner.stop();
       const latestVersion = Object.keys(JSON.parse(output)).reverse()[0];
       const hasUpdaate = semver.gt(latestVersion, installed.version);
       if (hasUpdaate) {
-        const { confirmed } = await utils.getConfirmation(`There is an update available ${colors.yellow(`(v${latestVersion})`)}. Do you want to update it now?`);
+        const { confirmed } = await utils.getConfirmation(
+          `There is an update available ${colors.yellow(
+            `(v${latestVersion})`
+          )}. Do you want to update it now?`
+        );
         if (confirmed) {
           spinner.text = `Updating ${pkgName}`;
           spinner.start();
           shell.exec(`npm i -g ${pkgName}@latest`, { silent: true });
           spinner.stop();
-          console.log(colors.green(`✅ ${pkgName} updated to v${latestVersion}. ${colors.yellow("(Will be affected next time)")}\n`));
+          console.log(
+            colors.green(
+              `✅ ${pkgName} updated to v${latestVersion}. ${colors.yellow(
+                "(Will be affected next time)"
+              )}\n`
+            )
+          );
         }
       }
     }

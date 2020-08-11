@@ -1,6 +1,6 @@
 import { Command } from "@oclif/command";
 import defaultGateway from "default-gateway";
-import askOperation from "../util/getFuzzyChoice";
+import askFuzzy from "../util/getFuzzyChoice";
 import ip from "ip";
 import axios from "axios";
 
@@ -16,7 +16,7 @@ const choices = [
 
 class Network extends Command {
   async run() {
-    const { operation } = await askOperation(choices);
+    const { operation } = await askFuzzy(choices);
 
     switch (operation) {
       case "get-my-ip-details":

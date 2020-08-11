@@ -9,7 +9,7 @@ interface IChoice {
   description?: string;
 }
 
-const askOperation = (choices: IChoice[]) => {
+const askFuzzy = (choices: IChoice[]) => {
   const titles = choices.map((ele) => ele.title);
 
   return prompts(
@@ -30,4 +30,4 @@ const askOperation = (choices: IChoice[]) => {
   );
 };
 
-export default askOperation;
+export default askFuzzy;
