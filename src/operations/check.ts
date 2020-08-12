@@ -1,15 +1,15 @@
-import { Command } from "@oclif/command";
-import prompts from "prompts";
-import * as shell from "shelljs";
-import pidusage from "pidusage";
-import Table from "cli-table";
+import { Command } from '@oclif/command';
+import prompts from 'prompts';
+import * as shell from 'shelljs';
+import pidusage from 'pidusage';
+import Table from 'cli-table';
 
 const listProcesses = (list: any) => {
   return prompts(
     {
-      type: "autocompleteMultiselect",
-      name: "pids",
-      message: "Pick a process",
+      type: 'autocompleteMultiselect',
+      name: 'pids',
+      message: 'Pick a process',
       choices: list.map((ele: any) => ({ title: `${ele.name} (${ele.addr})`, value: ele.pid })),
       min: 1,
     },
@@ -45,7 +45,7 @@ class Check extends Command {
      *    ""
      *  ]
      */
-    data = data.split("\n").map((ele: any) => ele);
+    data = data.split('\n').map((ele: any) => ele);
 
     /**
      *  [
@@ -53,7 +53,7 @@ class Check extends Command {
      *    'rapportd 385 *:49213',
      *  ]
      */
-    data = data.filter((ele: any) => ele.split(" ").length === 3);
+    data = data.filter((ele: any) => ele.split(' ').length === 3);
 
     /**
      *  [
@@ -61,7 +61,7 @@ class Check extends Command {
      *    ['rapportd, 385, *:49213']
      *  ]
      */
-    data = data.map((ele: any) => ele.split(" "));
+    data = data.map((ele: any) => ele.split(' '));
 
     /**
      *  [
