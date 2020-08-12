@@ -1,9 +1,8 @@
 import { Command } from '@oclif/command';
 import askFuzzy from '../util/getFuzzyChoice';
-import shell from 'shelljs';
 import colors from 'colors';
 import prompts from 'prompts';
-import ora from 'ora';
+import shellExecAsync from '../util/shellExecAsync';
 
 const choices = [
   {
@@ -28,7 +27,7 @@ class Utility extends Command {
   }
 
   async npmBulkUninstall() {
-    const output: any = shell.exec(`npm list --depth=0 --json`, { silent: true }).stdout;
+    const output: string = await shellExecAsync(`npm list --depth=0 --json`, { silent: true }, { loadingMsg: 'Analyzing directory...' });
     const { dependencies } = JSON.parse(output);
     if (!dependencies) return console.log(colors.red('package.json not found in the drectory'));
     const allPackages = Object.keys(dependencies).map(pkgName => ({ name: pkgName, ...dependencies[pkgName] }));
@@ -42,10 +41,7 @@ class Utility extends Command {
     });
 
     for (const pkgName of selectedPackages) {
-      const spinner = ora(`Uninstalling ${pkgName}`);
-      spinner.start();
-      shell.exec(`npm un ${pkgName}`, { silent: true });
-      spinner.stop();
+      await shellExecAsync(`npm un ${pkgName}`, { silent: true }, { loadingMsg: `Uninstalling ${pkgName}` });
       console.log(colors.green(`${colors.red(pkgName)} uninstalled`));
     }
   }

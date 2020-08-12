@@ -1,16 +1,16 @@
-import { Command } from "@oclif/command";
-import defaultGateway from "default-gateway";
-import askFuzzy from "../util/getFuzzyChoice";
-import ip from "ip";
-import axios from "axios";
+import { Command } from '@oclif/command';
+import defaultGateway from 'default-gateway';
+import askFuzzy from '../util/getFuzzyChoice';
+import ip from 'ip';
+import axios from 'axios';
 
 // ssh
 
 const choices = [
   {
-    title: "Get my ip details",
-    value: "get-my-ip-details",
-    description: "Get details about your ip.",
+    title: 'Get my ip details',
+    value: 'get-my-ip-details',
+    description: 'Get details about your ip.',
   },
 ];
 
@@ -19,7 +19,7 @@ class Network extends Command {
     const { operation } = await askFuzzy(choices);
 
     switch (operation) {
-      case "get-my-ip-details":
+      case 'get-my-ip-details':
         const details = await this.getMyIpDetails();
         console.log(details);
         break;
@@ -36,19 +36,19 @@ class Network extends Command {
 
     await defaultGateway
       .v4()
-      .then((data) => {
+      .then(data => {
         details.gateway = data;
       })
-      .catch((err) => {});
+      .catch(err => {});
 
     await axios
-      .get("https://freegeoip.app/json", {
+      .get('https://freegeoip.app/json', {
         timeout: 2000,
       })
-      .then((response) => {
+      .then(response => {
         details.publicIp = response.data;
       })
-      .catch((err) => {});
+      .catch(err => {});
 
     return details;
   }

@@ -1,15 +1,16 @@
-import { Command } from "@oclif/command";
-import prompts from "prompts";
-import * as shell from "shelljs";
-import pidusage from "pidusage";
-import Table from "cli-table";
+import { Command } from '@oclif/command';
+import prompts from 'prompts';
+import * as shell from 'shelljs';
+import pidusage from 'pidusage';
+import Table from 'cli-table';
+import shellExecAsync from '../util/shellExecAsync';
 
 const listProcesses = (list: any) => {
   return prompts(
     {
-      type: "autocompleteMultiselect",
-      name: "pids",
-      message: "Pick a process",
+      type: 'autocompleteMultiselect',
+      name: 'pids',
+      message: 'Pick a process',
       choices: list.map((ele: any) => ({ title: `${ele.name} (${ele.addr})`, value: ele.pid })),
       min: 1,
     },
@@ -19,7 +20,7 @@ const listProcesses = (list: any) => {
 
 class Check extends Command {
   async run() {
-    const data = this.getListeningPortsData();
+    const data = await this.getListeningPortsData();
     const { pids } = await listProcesses(data);
 
     const processDetails: any = await pidusage(pids);
@@ -31,12 +32,12 @@ class Check extends Command {
     console.log(table.toString());
   }
 
-  getListeningPortsData() {
+  async getListeningPortsData() {
     /**
      * rapportd 385 *:49213
      * rapportd 385 *:49213
      */
-    let data: any = shell.exec("lsof -nP +c 15 | grep LISTEN | awk '{print($1,$2,$9)}'", { silent: true }).stdout;
+    let data: any = await shellExecAsync("lsof -nP +c 15 | grep LISTEN | awk '{print($1,$2,$9)}'", { silent: true });
 
     /**
      *  [
@@ -45,7 +46,7 @@ class Check extends Command {
      *    ""
      *  ]
      */
-    data = data.split("\n").map((ele: any) => ele);
+    data = data.split('\n').map((ele: any) => ele);
 
     /**
      *  [
@@ -53,7 +54,7 @@ class Check extends Command {
      *    'rapportd 385 *:49213',
      *  ]
      */
-    data = data.filter((ele: any) => ele.split(" ").length === 3);
+    data = data.filter((ele: any) => ele.split(' ').length === 3);
 
     /**
      *  [
@@ -61,7 +62,7 @@ class Check extends Command {
      *    ['rapportd, 385, *:49213']
      *  ]
      */
-    data = data.map((ele: any) => ele.split(" "));
+    data = data.map((ele: any) => ele.split(' '));
 
     /**
      *  [
