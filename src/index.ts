@@ -64,12 +64,6 @@ const utils = {
 };
 
 class CrossTools extends Command {
-  /* constructor() {
-      console.log(arguments);
-      // super([...arguments]);
-      // console.log('from constructor');
-  }*/
-
   async run() {
     await this.bootApp();
     const { operation } = await ask();
