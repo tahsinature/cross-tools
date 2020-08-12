@@ -14,7 +14,7 @@ const listProcesses = (list: any) => {
       choices: list.map((ele: any) => ({ title: `${ele.name} (${ele.addr})`, value: ele.pid })),
       min: 1,
     },
-    { onCancel: process.exit as any }
+    { onCancel: () => process.exit() }
   );
 };
 

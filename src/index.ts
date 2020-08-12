@@ -9,7 +9,6 @@ import Network from './operations/network';
 import Utility from './operations/utility';
 
 import semver from 'semver';
-import ora from 'ora';
 import shellExecAsync from './util/shellExecAsync';
 
 const choices = [
@@ -59,7 +58,7 @@ const utils = {
         message,
         initial: true,
       },
-      { onCancel: process.exit as any }
+      { onCancel: () => process.exit() }
     );
   },
 };
@@ -118,7 +117,7 @@ class CrossTools extends Command {
       const latestVersion = Object.keys(JSON.parse(output)).reverse()[0];
       const hasUpdaate = semver.gt(latestVersion, installed.version);
       if (hasUpdaate) {
-        const { confirmed } = await utils.getConfirmation(`There is an update available ${colors.yellow(`(v${latestVersion})`)}. Do you want to update it now?`);
+        const { confirmed } = await utils.getConfirmation(`There is an update available (${colors.yellow(`v${installed.version} -> v${latestVersion}`)}). Do you want to update it now?`);
         if (confirmed) {
           await shellExecAsync(`npm i -g ${pkgName}@latest`, { silent: true }, { loadingMsg: `Updating ${pkgName}` });
           console.log(colors.green(`✅ ${pkgName} updated to v${latestVersion}. ${colors.yellow('(Will be affected next time)')}\n`));

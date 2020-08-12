@@ -15,7 +15,7 @@ const askOperation = () => {
         { title: 'Get my docker info', value: 'get-my-docker-info', description: 'Details of running docker instance' },
       ],
     },
-    { onCancel: process.exit as any }
+    { onCancel: () => process.exit() }
   );
 };
 
@@ -34,7 +34,7 @@ const pickContaniers = (containers: Docker.ContainerInfo[]) => {
         description: 'test desc',
       })),
     },
-    { onCancel: process.exit as any }
+    { onCancel: () => process.exit() }
   );
 };
 
@@ -50,7 +50,7 @@ const askContainersAction = () => {
         { title: 'Remove', value: 'remove', description: 'Remove (forced) selected containers' },
       ],
     },
-    { onCancel: process.exit as any }
+    { onCancel: () => process.exit() }
   );
 };
 

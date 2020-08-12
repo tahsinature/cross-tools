@@ -31,7 +31,7 @@ const ask = async () => {
       },
       choices,
     },
-    { onCancel: process.exit as any }
+    { onCancel: () => process.exit() }
   );
 };
 
@@ -99,7 +99,7 @@ class ProcessAndPorts extends Command {
           return p.length ? true : 'No process found with this port';
         },
       },
-      { onCancel: process.exit as any }
+      { onCancel: () => process.exit() }
     );
 
     const [{ cmd, pid }] = await findProcess('port', port);
@@ -111,7 +111,7 @@ class ProcessAndPorts extends Command {
         message: `kill ${colors.cyan(cmd)}?`,
         initial: true,
       },
-      { onCancel: process.exit as any }
+      { onCancel: () => process.exit() }
     );
 
     if (sure) utils.killPid(pid);
@@ -128,7 +128,7 @@ class ProcessAndPorts extends Command {
           hint: "If you want to kill by PID, don't select any process from suggestion and type the pid",
           min: 1,
         },
-        { onCancel: process.exit as any }
+        { onCancel: () => process.exit() }
       );
     };
     // const check = new Check();
@@ -147,7 +147,7 @@ class ProcessAndPorts extends Command {
           initial: os.userInfo().username,
           message: 'Enter a name to say hello',
         },
-        { onCancel: process.exit as any }
+        { onCancel: () => process.exit() }
       );
     };
 
@@ -165,7 +165,7 @@ class ProcessAndPorts extends Command {
             return suggestion === port || `Port is busy or should not use, suggested: ${colors.cyan(suggestion as any)}`;
           },
         },
-        { onCancel: process.exit as any }
+        { onCancel: () => process.exit() }
       );
     };
 
@@ -191,7 +191,7 @@ ${colors.gray(`http://localhost:${port}`)}
           style: 'default',
           min: 1,
         },
-        { onCancel: process.exit as any }
+        { onCancel: () => process.exit() }
       );
     };
     const { pid } = await askPid();
