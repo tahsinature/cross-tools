@@ -24,7 +24,7 @@ const askFuzzy = (choices: IChoice[]) => {
         return choices.filter((choice, index) => filteredIndices.includes(index)) as any;
       },
     },
-    { onCancel: process.exit as any }
+    { onCancel: () => process.exit() }
   );
 };
 
