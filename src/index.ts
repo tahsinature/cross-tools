@@ -1,4 +1,4 @@
-import { Command, flags } from '@oclif/command';
+import { Command } from '@oclif/command';
 import colors from 'colors';
 import prompts from 'prompts';
 import * as fuzzy from 'fuzzy';
