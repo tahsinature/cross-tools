@@ -3,6 +3,7 @@ import prompts from 'prompts';
 import * as shell from 'shelljs';
 import pidusage from 'pidusage';
 import Table from 'cli-table';
+import shellExecAsync from '../util/shellExecAsync';
 
 const listProcesses = (list: any) => {
   return prompts(
@@ -19,7 +20,7 @@ const listProcesses = (list: any) => {
 
 class Check extends Command {
   async run() {
-    const data = this.getListeningPortsData();
+    const data = await this.getListeningPortsData();
     const { pids } = await listProcesses(data);
 
     const processDetails: any = await pidusage(pids);
@@ -31,12 +32,12 @@ class Check extends Command {
     console.log(table.toString());
   }
 
-  getListeningPortsData() {
+  async getListeningPortsData() {
     /**
      * rapportd 385 *:49213
      * rapportd 385 *:49213
      */
-    let data: any = shell.exec("lsof -nP +c 15 | grep LISTEN | awk '{print($1,$2,$9)}'", { silent: true }).stdout;
+    let data: any = await shellExecAsync("lsof -nP +c 15 | grep LISTEN | awk '{print($1,$2,$9)}'", { silent: true });
 
     /**
      *  [

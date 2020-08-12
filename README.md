@@ -45,3 +45,5 @@ $ npx cross-tools
   - Get my docker info
 - Network Tools
   - Get ip details
+- Utilities
+  - npm bulk uninstall
