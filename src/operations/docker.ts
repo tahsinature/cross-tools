@@ -48,6 +48,7 @@ const askContainersAction = () => {
         { title: 'Start', value: 'start', description: 'Start selected containers. (already running containrs will be skipped)' },
         { title: 'Stop', value: 'stop', description: 'Stop selected containers. (already stopped containrs will be skipped)' },
         { title: 'Remove', value: 'remove', description: 'Remove (forced) selected containers' },
+        { title: 'Restart', value: 'restart', description: 'Restart / Start (if stopped) selected containers' },
       ],
     },
     { onCancel: () => process.exit() }
@@ -92,18 +93,21 @@ class DockerTools extends Command {
     }
   }
 
-  async execContainersAction(containers: Docker.ContainerInfo[], action: 'remove' | 'stop' | 'start') {
+  async execContainersAction(containers: Docker.ContainerInfo[], action: 'start' | 'stop' | 'remove' | 'restart') {
     for (const container of containers) {
       const msg = colors.cyan(`✅ action: ${colors.bold(action)}. container: ${container.Names[0]}`);
       switch (action) {
-        case 'remove':
-          await this.docker.getContainer(container.Id).remove({ force: true });
-          break;
         case 'start':
           await this.docker.getContainer(container.Id).start();
           break;
         case 'stop':
           await this.docker.getContainer(container.Id).stop();
+          break;
+        case 'remove':
+          await this.docker.getContainer(container.Id).remove({ force: true });
+          break;
+        case 'restart':
+          await this.docker.getContainer(container.Id).restart();
           break;
 
         default:
