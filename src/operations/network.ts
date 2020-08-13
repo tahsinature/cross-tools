@@ -3,6 +3,7 @@ import defaultGateway from 'default-gateway';
 import askFuzzy from '../util/getFuzzyChoice';
 import ip from 'ip';
 import axios from 'axios';
+import asyncLoader from '../util/asyncLoader';
 
 // ssh
 
@@ -20,7 +21,7 @@ class Network extends Command {
 
     switch (operation) {
       case 'get-my-ip-details':
-        const details = await this.getMyIpDetails();
+        const details = await asyncLoader(this.getMyIpDetails, 'Inspecting network');
         console.log(details);
         break;
 

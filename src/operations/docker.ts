@@ -2,6 +2,7 @@ import { Command } from '@oclif/command';
 import prompts from 'prompts';
 import colors from 'colors';
 import Docker from 'dockerode';
+import asyncLoader from '../util/asyncLoader';
 
 const askOperation = () => {
   return prompts(
@@ -94,25 +95,33 @@ class DockerTools extends Command {
   }
 
   async execContainersAction(containers: Docker.ContainerInfo[], action: 'start' | 'stop' | 'remove' | 'restart') {
-    for (const container of containers) {
-      const msg = colors.cyan(`✅ action: ${colors.bold(action)}. container: ${container.Names[0]}`);
+    for (const containerDetails of containers) {
+      const msgBefore = `Performing [${action}] container`;
+      const msg = colors.cyan(`✅ action: ${colors.bold(action)}. container: ${containerDetails.Names[0]}`);
+      let getPromise: () => Promise<any>;
+
       switch (action) {
         case 'start':
-          await this.docker.getContainer(container.Id).start();
+          getPromise = () => new Promise((res, rej) => this.docker.getContainer(containerDetails.Id).start().then(res).catch(rej));
+          await asyncLoader(getPromise, msgBefore);
           break;
         case 'stop':
-          await this.docker.getContainer(container.Id).stop();
+          getPromise = () => new Promise((res, rej) => this.docker.getContainer(containerDetails.Id).stop().then(res).catch(res)); // always resolving (for getting success response if containers already stopped)
+          await asyncLoader(getPromise, msgBefore);
           break;
         case 'remove':
-          await this.docker.getContainer(container.Id).remove({ force: true });
+          getPromise = () => new Promise((res, rej) => this.docker.getContainer(containerDetails.Id).remove({ force: true }).then(res).catch(rej));
+          await asyncLoader(getPromise, msgBefore);
           break;
         case 'restart':
-          await this.docker.getContainer(container.Id).restart();
+          getPromise = () => new Promise((res, rej) => this.docker.getContainer(containerDetails.Id).restart().then(res).catch(rej));
+          await asyncLoader(getPromise, msgBefore);
           break;
 
         default:
           console.log(colors.red('container action not supported'));
       }
+
       console.log(msg);
     }
   }
