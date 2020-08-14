@@ -1,5 +1,5 @@
 import shell from 'shelljs';
-import asyncLoader from './asyncLoader';
+import asyncLoader from '@app/util/asyncLoader';
 
 const shellExecAsync = (cmd: string, opts: shell.ExecOptions = {}, customOpts = { loadingMsg: 'Loading...' }): Promise<string> => {
   const promise = () =>

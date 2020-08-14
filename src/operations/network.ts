@@ -3,10 +3,9 @@ import defaultGateway from 'default-gateway';
 import askFuzzy from '../util/getFuzzyChoice';
 import ip from 'ip';
 import axios from 'axios';
-import asyncLoader from '../util/asyncLoader';
+import asyncLoader from '@app/util/asyncLoader';
 
 // ssh
-
 const choices = [
   {
     title: 'Get my ip details',

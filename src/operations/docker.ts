@@ -2,7 +2,7 @@ import { Command } from '@oclif/command';
 import prompts from 'prompts';
 import colors from 'colors';
 import Docker from 'dockerode';
-import asyncLoader from '../util/asyncLoader';
+import asyncLoader from '@app/util/asyncLoader';
 
 const askOperation = () => {
   return prompts(

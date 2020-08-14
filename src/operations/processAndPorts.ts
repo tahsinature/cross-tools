@@ -2,7 +2,7 @@ import prompts from 'prompts';
 import fuzzy from 'fuzzy';
 import { Command } from '@oclif/command';
 import colors from 'colors';
-import Check from './check';
+import Check from '@app/operations/check';
 import http from 'http';
 import os from 'os';
 import detect from 'detect-port';

@@ -1,9 +1,8 @@
 import { Command } from '@oclif/command';
 import prompts from 'prompts';
-import * as shell from 'shelljs';
 import pidusage from 'pidusage';
 import Table from 'cli-table';
-import shellExecAsync from '../util/shellExecAsync';
+import shellExecAsync from '@app/util/shellExecAsync';
 
 const listProcesses = (list: any) => {
   return prompts(

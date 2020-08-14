@@ -1,8 +1,8 @@
 import { Command } from '@oclif/command';
-import askFuzzy from '../util/getFuzzyChoice';
+import askFuzzy from '@app/util/getFuzzyChoice';
 import colors from 'colors';
 import prompts from 'prompts';
-import shellExecAsync from '../util/shellExecAsync';
+import shellExecAsync from '@app/util/shellExecAsync';
 
 const choices = [
   {
