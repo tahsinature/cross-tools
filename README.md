@@ -40,7 +40,7 @@ $ npx cross-tools
   - List Listening Ports (Beta)
   - Port Checker (Beta)
 - Docker Tools
-  - Select containers (Take action)
+  - Select containers & take action ('start' | 'stop' | 'remove' | 'restart')
   - Remove all containers
   - Get my docker info
 - Network Tools
