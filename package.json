@@ -65,7 +65,7 @@
   },
   "repository": "tahsinature/cross-tools",
   "scripts": {
-    "prepack": "rm -rf lib && ttsc -b && npm run minify",
+    "prepack": "rm -rf lib && ttsc -b && npm run minify && npx np",
     "test": "echo NO TESTS",
     "minify": "npx uglifyjs-folder lib -e -x .js -o lib"
   },
