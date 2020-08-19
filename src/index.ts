@@ -2,14 +2,12 @@ import { Command } from '@oclif/command';
 import colors from 'colors';
 import prompts from 'prompts';
 import * as fuzzy from 'fuzzy';
-
-import ProcessAndPorts from './operations/processAndPorts';
-import DockerTools from './operations/docker';
-import Network from './operations/network';
-import Utility from './operations/utility';
-
 import semver from 'semver';
-import shellExecAsync from './util/shellExecAsync';
+import ProcessAndPorts from '@app/operations/processAndPorts';
+import DockerTools from '@app/operations/docker';
+import Network from '@app/operations/network';
+import Utility from '@app/operations/utility';
+import shellExecAsync from '@app/util/shellExecAsync';
 
 const choices = [
   {
