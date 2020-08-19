@@ -10,21 +10,9 @@ import Utility from '@app/operations/utility';
 import shellExecAsync from '@app/util/shellExecAsync';
 
 const choices = [
-  {
-    title: 'Process & Port Tools',
-    value: 'process-and-ports',
-    description: 'Tools related to port and process',
-  },
-  {
-    title: 'Docker Tools',
-    value: 'docker',
-    description: 'Some handy tools for docker',
-  },
-  {
-    title: 'Network Tools',
-    value: 'network',
-    description: 'Network related handy tools',
-  },
+  { title: 'Process & Port Tools', value: 'process-and-ports', description: 'Tools related to port and process' },
+  { title: 'Docker Tools', value: 'docker', description: 'Some handy tools for docker' },
+  { title: 'Network Tools', value: 'network', description: 'Network related handy tools' },
   { title: 'Utilities', value: 'utility', description: 'Some other utilities' },
 ];
 
@@ -63,7 +51,7 @@ const utils = {
 
 class CrossTools extends Command {
   async run() {
-    await this.bootApp();
+    // await this.bootApp();
     const { operation } = await ask();
 
     switch (operation) {
