@@ -7,13 +7,18 @@ import ProcessAndPorts from '@app/operations/processAndPorts';
 import DockerTools from '@app/operations/docker';
 import Network from '@app/operations/network';
 import Utility from '@app/operations/utility';
+import Settings from '@app/operations/settings';
 import shellExecAsync from '@app/util/shellExecAsync';
+import { getConfirmation } from './util/myPrompts';
+import config from './config';
+import moment from 'moment';
 
 const choices = [
   { title: 'Process & Port Tools', value: 'process-and-ports', description: 'Tools related to port and process' },
   { title: 'Docker Tools', value: 'docker', description: 'Some handy tools for docker' },
   { title: 'Network Tools', value: 'network', description: 'Network related handy tools' },
   { title: 'Utilities', value: 'utility', description: 'Some other utilities' },
+  { title: 'Settings', value: 'settings', description: 'Configure your cross-tools' },
 ];
 
 const titles = choices.map(ele => ele.title);
@@ -35,23 +40,10 @@ const ask = async () => {
   return response;
 };
 
-const utils = {
-  getConfirmation(message: string) {
-    return prompts(
-      {
-        type: 'confirm',
-        name: 'confirmed',
-        message,
-        initial: true,
-      },
-      { onCancel: () => process.exit() }
-    );
-  },
-};
-
 class CrossTools extends Command {
   async run() {
-    // await this.bootApp();
+    await this.bootApp();
+
     const { operation } = await ask();
 
     switch (operation) {
@@ -67,6 +59,9 @@ class CrossTools extends Command {
       case 'utility':
         await Utility.run();
         break;
+      case 'settings':
+        await Settings.run();
+        break;
       default:
         console.log(colors.cyan('Oops. Hopefully next time'));
         break;
@@ -80,24 +75,30 @@ class CrossTools extends Command {
 
     const pkgName = 'cross-tools';
 
+    if (!config.state.checkForLocalInstallationOnBoot) return;
+
     const output: any = await shellExecAsync('npm list -g --depth=0 --json', { silent: true }, { loadingMsg: 'Checking for local installation' });
     const installed = JSON.parse(output).dependencies[pkgName];
     if (!installed) {
-      const { confirmed } = await utils.getConfirmation(`Do you want to create this package locally?
+      const { confirmed } = await getConfirmation(`Do you want to create this package locally?
   ${colors.yellow(`(By doing so, you don't have to download it on every execution.)`)}`);
       if (confirmed) {
         await shellExecAsync(`npm i -g ${pkgName}@latest`, { silent: true }, { loadingMsg: `Installing ${pkgName} locally` }); // check for user input (like pass)
       }
     } else {
+      if (moment.duration(moment().diff(config.state.lastUpdateCheck), 'second').asDays() < config.state.updateCheckIntervalInDays) return;
+
       const output: any = await shellExecAsync(
         `npm show ${pkgName} time --json`,
         { silent: true },
         { loadingMsg: `Current Version: ${colors.yellow(`v${installed.version}`)}. Checking for update...` }
       );
+
       const latestVersion = Object.keys(JSON.parse(output)).reverse()[0];
       const hasUpdaate = semver.gt(latestVersion, installed.version);
+      config.update('lastUpdateCheck', Date.now());
       if (hasUpdaate) {
-        const { confirmed } = await utils.getConfirmation(`There is an update available (${colors.yellow(`v${installed.version} -> v${latestVersion}`)}). Do you want to update it now?`);
+        const { confirmed } = await getConfirmation(`There is an update available (${colors.yellow(`v${installed.version} -> v${latestVersion}`)}). Do you want to update it now?`);
         if (confirmed) {
           await shellExecAsync(`npm i -g ${pkgName}@latest`, { silent: true }, { loadingMsg: `Updating ${pkgName}` });
           console.log(colors.green(`✅ ${pkgName} updated to v${latestVersion}. ${colors.yellow('(Will be affected next time)')}\n`));

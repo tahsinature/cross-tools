@@ -9,7 +9,7 @@ interface IChoice {
   description?: string;
 }
 
-const askFuzzy = (choices: IChoice[]) => {
+export const askFuzzy = (choices: IChoice[]) => {
   const titles = choices.map(ele => ele.title);
 
   return prompts(
@@ -28,4 +28,14 @@ const askFuzzy = (choices: IChoice[]) => {
   );
 };
 
-export default askFuzzy;
+export const getConfirmation = (message: string) => {
+  return prompts(
+    {
+      type: 'confirm',
+      name: 'confirmed',
+      message,
+      initial: true,
+    },
+    { onCancel: () => process.exit() }
+  );
+};

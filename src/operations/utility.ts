@@ -1,5 +1,5 @@
 import { Command } from '@oclif/command';
-import askFuzzy from '@app/util/getFuzzyChoice';
+import { askFuzzy } from '@app/util/myPrompts';
 import colors from 'colors';
 import prompts from 'prompts';
 import shellExecAsync from '@app/util/shellExecAsync';
