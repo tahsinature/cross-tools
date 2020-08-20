@@ -17,7 +17,7 @@ class Config {
   state: any = {
     updateCheckIntervalInDays: 2,
     lastUpdateCheck: 0,
-    checkForLocalInstallationOnBoot: false,
+    checkForLocalInstallationOnBoot: true,
   };
 
   init() {
