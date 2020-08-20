@@ -46,4 +46,5 @@ $ npx cross-tools
 - Network Tools
   - Get ip details
 - Utilities
+  - Get npm packages info
   - npm bulk uninstall

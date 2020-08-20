@@ -1,6 +1,6 @@
 import { Command } from '@oclif/command';
 import defaultGateway from 'default-gateway';
-import askFuzzy from '../util/getFuzzyChoice';
+import { askFuzzy } from '../util/myPrompts';
 import ip from 'ip';
 import axios from 'axios';
 import asyncLoader from '@app/util/asyncLoader';
