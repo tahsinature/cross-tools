@@ -70,7 +70,8 @@
     "prepack": "npm run build && npm run minify",
     "test": "echo NO TESTS",
     "minify": "npx uglifyjs-folder lib -e -x .js -o lib",
-    "build": "rm -rf lib && ttsc -b"
+    "build": "rm -rf lib && ttsc -b",
+    "release": "npx np --no-publish"
   },
   "types": "lib/index.d.ts"
 }
