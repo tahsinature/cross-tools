@@ -11,8 +11,9 @@ const schema: any = {
 };
 
 class Config {
-  private configFileName = 'cross-tools.config.json';
-  private configFilePath = path.join(os.homedir(), this.configFileName);
+  private configFileName = 'config.json';
+  private configFolderPath = path.join(os.homedir(), '.config', 'cross-tools');
+  private configFilePath = path.join(this.configFolderPath, this.configFileName);
 
   state: any = {
     updateCheckIntervalInDays: 2,
@@ -50,6 +51,8 @@ class Config {
   private sync() {
     const { error } = Joi.object(schema).validate(this.state);
     if (error) throw error;
+
+    fs.mkdirSync(this.configFolderPath, { recursive: true });
     fs.writeFileSync(this.configFilePath, JSON.stringify(this.state, null, 2));
   }
 }
