@@ -47,4 +47,5 @@ $ npx cross-tools
   - Get ip details
 - Utilities
   - Get npm packages info
+  - npm single uninstall (fuzzy search package)
   - npm bulk uninstall
