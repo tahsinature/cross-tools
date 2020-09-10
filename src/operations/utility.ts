@@ -14,9 +14,14 @@ const choices = [
     description: 'If multiple, seprate them by space',
   },
   {
+    title: 'npm single uninstall',
+    value: 'npm-single-uninstall',
+    description: 'Uninstall a single package',
+  },
+  {
     title: 'npm bulk uninstall',
     value: 'npm-bulk-uninstall',
-    description: 'Uninstall by bulk selection and fuzzy search',
+    description: 'Uninstall by bulk selection',
   },
 ];
 
@@ -25,6 +30,10 @@ class Utility extends Command {
     const { operation } = await askFuzzy(choices);
 
     switch (operation) {
+      case 'npm-single-uninstall':
+        await this.npmSingleUninstall();
+        break;
+
       case 'npm-bulk-uninstall':
         await this.npmBulkUninstall();
         break;
@@ -36,6 +45,25 @@ class Utility extends Command {
       default:
         break;
     }
+  }
+
+  async npmSingleUninstall() {
+    const output: string = await shellExecAsync(`npm list --depth=0 --json`, { silent: true }, { loadingMsg: 'Analyzing directory...' });
+    const { dependencies } = JSON.parse(output);
+    if (!dependencies) return console.log(colors.red('package.json not found in the drectory'));
+    const allPackages = Object.keys(dependencies).map(pkgName => ({ name: pkgName, ...dependencies[pkgName] }));
+
+    const { selectedPackage } = await prompts(
+      {
+        type: 'autocomplete',
+        name: 'selectedPackage',
+        message: 'Select the packages you want to uninstall.',
+        choices: allPackages.map((pkg: any) => ({ title: pkg.name, value: pkg.name, description: pkg.version })),
+      },
+      { onCancel: () => process.exit() }
+    );
+    await shellExecAsync(`npm un ${selectedPackage}`, { silent: true }, { loadingMsg: `Uninstalling ${selectedPackage}` });
+    console.log(colors.green(`${colors.red(selectedPackage)} uninstalled`));
   }
 
   async npmBulkUninstall() {
