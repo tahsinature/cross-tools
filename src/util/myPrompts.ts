@@ -9,14 +9,18 @@ interface IChoice {
   description?: string;
 }
 
-export const askFuzzy = (choices: IChoice[]) => {
+interface IOption {
+  message?: string;
+}
+
+export const askFuzzy = (choices: IChoice[], option: IOption) => {
   const titles = choices.map(ele => ele.title);
 
   return prompts(
     {
       type: 'autocomplete',
       name: 'operation',
-      message: 'Select an operation',
+      message: option.message || 'Select an operation',
       choices,
       suggest(input: any) {
         const results = fuzzy.filter(input, titles);

@@ -10,7 +10,7 @@ const choices = [
 
 class Settings extends Command {
   async run() {
-    const { operation } = await askFuzzy(choices);
+    const { operation } = await askFuzzy(choices, {});
 
     switch (operation) {
       case 'update-check-frequency':

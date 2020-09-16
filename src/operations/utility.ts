@@ -27,7 +27,7 @@ const choices = [
 
 class Utility extends Command {
   async run() {
-    const { operation } = await askFuzzy(choices);
+    const { operation } = await askFuzzy(choices, {});
 
     switch (operation) {
       case 'npm-single-uninstall':
@@ -53,17 +53,13 @@ class Utility extends Command {
     if (!dependencies) return console.log(colors.red('package.json not found in the drectory'));
     const allPackages = Object.keys(dependencies).map(pkgName => ({ name: pkgName, ...dependencies[pkgName] }));
 
-    const { selectedPackage } = await prompts(
-      {
-        type: 'autocomplete',
-        name: 'selectedPackage',
-        message: 'Select the packages you want to uninstall.',
-        choices: allPackages.map((pkg: any) => ({ title: pkg.name, value: pkg.name, description: pkg.version })),
-      },
-      { onCancel: () => process.exit() }
+    const { operation } = await askFuzzy(
+      allPackages.map((pkg: any) => ({ title: pkg.name, value: pkg.name, description: pkg.version })),
+      { message: 'Select the packages you want to uninstall.' }
     );
-    await shellExecAsync(`npm un ${selectedPackage}`, { silent: true }, { loadingMsg: `Uninstalling ${selectedPackage}` });
-    console.log(colors.green(`${colors.red(selectedPackage)} uninstalled`));
+
+    await shellExecAsync(`npm un ${operation}`, { silent: true }, { loadingMsg: `Uninstalling ${operation}` });
+    console.log(colors.green(`${colors.red(operation)} uninstalled`));
   }
 
   async npmBulkUninstall() {

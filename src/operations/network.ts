@@ -16,7 +16,7 @@ const choices = [
 
 class Network extends Command {
   async run() {
-    const { operation } = await askFuzzy(choices);
+    const { operation } = await askFuzzy(choices, {});
 
     switch (operation) {
       case 'get-my-ip-details':
