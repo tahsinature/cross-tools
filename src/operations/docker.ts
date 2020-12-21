@@ -13,6 +13,7 @@ const askOperation = () => {
       choices: [
         { title: 'Select containers', value: 'select-containers', description: 'List, view & take action' },
         { title: 'Remove all containers', value: 'remove-all-containers', description: 'Both running & stopped' },
+        { title: 'Remove all volumes', value: 'remove-all-volumes', description: 'Unnecessary volumes will be removed' },
         { title: 'Get my docker info', value: 'get-my-docker-info', description: 'Details of running docker instance' },
       ],
     },
@@ -84,6 +85,10 @@ class DockerTools extends Command {
         await this.execContainersAction(containers, 'remove');
         break;
 
+      case 'remove-all-volumes':
+        this.removeAllVolumeAction();
+        break;
+
       case 'get-my-docker-info':
         const info = await this.getDockerInfo();
         console.log(info);
@@ -92,6 +97,21 @@ class DockerTools extends Command {
       default:
         break;
     }
+  }
+
+  async removeAllVolumeAction() {
+    let totalRemoved = 0;
+    const exec = async () => {
+      const beforeExecVolumes = await this.docker.listVolumes();
+      await this.docker.pruneVolumes();
+      const afterExecVolumes = await this.docker.listVolumes();
+      totalRemoved = beforeExecVolumes.Volumes.length - afterExecVolumes.Volumes.length;
+    };
+
+    await asyncLoader(exec, 'Removing all unnecessary volumes');
+
+    const msg = colors.cyan(`✅ total ${totalRemoved}: volume(s) removed.`);
+    console.log(msg);
   }
 
   async execContainersAction(containers: Docker.ContainerInfo[], action: 'start' | 'stop' | 'remove' | 'restart') {

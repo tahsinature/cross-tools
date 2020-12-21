@@ -42,6 +42,7 @@ $ npx cross-tools
 - Docker Tools
   - Select containers & take action ('start' | 'stop' | 'remove' | 'restart')
   - Remove all containers
+  - Remove all volumes
   - Get my docker info
 - Network Tools
   - Get ip details
