@@ -70,7 +70,7 @@ class Utility extends Command {
 
     const { selectedPackages } = await prompts(
       {
-        type: 'multiselect',
+        type: 'autocompleteMultiselect',
         name: 'selectedPackages',
         message: 'Select the packages you want to uninstall.',
         choices: allPackages.map((pkg: any) => ({ title: pkg.name, value: pkg.name, description: pkg.version })),
