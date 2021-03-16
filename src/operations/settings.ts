@@ -5,6 +5,7 @@ import prompts from 'prompts';
 
 const choices = [
   { title: 'Update check frequency', value: 'update-check-frequency' },
+  { title: 'Check for update', value: 'check-for-update' },
   { title: 'Check for local installation', value: 'check-for-local-installation' },
 ];
 
@@ -44,6 +45,21 @@ class Settings extends Command {
         config.update('checkForLocalInstallationOnBoot', checkForLocalInstallationOnBoot);
         await this.run();
         break;
+
+      // case 'check-for-update':
+      //   const {  } = await prompts(
+      //     {
+      //       type: 'confirm',
+      //       name: 'checkForLocalInstallationOnBoot',
+      //       message: 'During bootup checks if this app installed globally',
+      //       initial: config.state.checkForLocalInstallationOnBoot,
+      //     },
+      //     { onCancel: () => process.exit() }
+      //   );
+
+      //   config.update('checkForLocalInstallationOnBoot', checkForLocalInstallationOnBoot);
+      //   await this.run();
+      //   break;
 
       default:
         break;
