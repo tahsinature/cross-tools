@@ -3,6 +3,9 @@ import prompts from 'prompts';
 import colors from 'colors';
 import Docker from 'dockerode';
 import asyncLoader from '@app/util/asyncLoader';
+import yaml from 'js-yaml';
+import fs from 'fs';
+import path from 'path';
 
 const askOperation = () => {
   return prompts(
@@ -11,6 +14,7 @@ const askOperation = () => {
       name: 'operation',
       message: 'Select an operation',
       choices: [
+        { title: 'Run a container', value: 'run-from-docker-compose', description: 'Load from docker-compose.yml/yaml and run one or, more containers' },
         { title: 'Select containers', value: 'select-containers', description: 'List, view & take action' },
         { title: 'Remove all containers', value: 'remove-all-containers', description: 'Both running & stopped' },
         { title: 'Remove all volumes', value: 'remove-all-volumes', description: 'Unnecessary volumes will be removed' },
@@ -93,6 +97,15 @@ class DockerTools extends Command {
         const info = await this.getDockerInfo();
         console.log(info);
         break;
+
+      case 'run-from-docker-compose':
+        const dockerComposePath = path.join(process.cwd(), 'docker-compose.yml');
+        const d: any = yaml.load(fs.readFileSync(dockerComposePath, 'utf8'));
+        const docker = new Docker();
+        // check if docker-compose executable exists
+        // run with shell js and docker-compose
+
+        console.log(d?.services);
 
       default:
         break;
