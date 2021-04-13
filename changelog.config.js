@@ -1,6 +1,6 @@
 module.exports = {
   disableEmoji: false,
-  list: ['test', 'feat', 'fix', 'docs', 'refactor', 'style', 'ci', 'enhnc'],
+  list: ['test', 'feat', 'fix', 'docs', 'refactor', 'style', 'ci', 'enhnc', 'pkg'],
   maxMessageLength: 64,
   minMessageLength: 3,
   questions: ['type', 'scope', 'subject', 'body', 'breaking', 'issues', 'lerna'],
@@ -45,6 +45,11 @@ module.exports = {
       description: 'Adding missing tests',
       emoji: '💍',
       value: 'test',
+    },
+    pkg: {
+      description: 'Update, remove or, add packages',
+      emoji: '📦',
+      value: 'pkg',
     },
   },
 };
