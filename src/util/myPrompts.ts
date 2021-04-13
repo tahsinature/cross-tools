@@ -1,5 +1,6 @@
 import prompts from 'prompts';
 import * as fuzzy from 'fuzzy';
+import _ from 'lodash';
 
 interface IChoice {
   title: string;
@@ -31,6 +32,19 @@ export const askFuzzy = (choices: IChoice[], option: IOption) => {
     { onCancel: () => process.exit() }
   );
 };
+
+export function askAutoCompleteMultiSelect(choices: IChoice[], option?: IOption) {
+  return prompts(
+    {
+      type: 'autocompleteMultiselect',
+      name: 'selectedItems',
+      message: option?.message || 'Select...',
+      choices,
+      min: 1,
+    },
+    { onCancel: () => process.exit() }
+  );
+}
 
 export const getConfirmation = (message: string) => {
   return prompts(

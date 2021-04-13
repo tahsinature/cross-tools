@@ -1,5 +1,5 @@
 import { Command } from '@oclif/command';
-import { askFuzzy } from '@app/util/myPrompts';
+import { askAutoCompleteMultiSelect, askFuzzy } from '@app/util/myPrompts';
 import colors from 'colors';
 import prompts from 'prompts';
 import shellExecAsync from '@app/util/shellExecAsync';
@@ -68,19 +68,13 @@ class Utility extends Command {
     if (!dependencies) return console.log(colors.red('package.json not found in the drectory'));
     const allPackages = Object.keys(dependencies).map(pkgName => ({ name: pkgName, ...dependencies[pkgName] }));
 
-    const { selectedPackages } = await prompts(
-      {
-        type: 'autocompleteMultiselect',
-        name: 'selectedPackages',
-        message: 'Select the packages you want to uninstall.',
-        choices: allPackages.map((pkg: any) => ({ title: pkg.name, value: pkg.name, description: pkg.version })),
-        min: 1,
-      },
-      { onCancel: () => process.exit() }
+    const { selectedItems: selectedPackages } = await askAutoCompleteMultiSelect(
+      allPackages.map((pkg: any) => ({ title: pkg.name, value: pkg.name, description: pkg.version })),
+      { message: 'Select the packages you want to uninstall' }
     );
 
     for (const pkgName of selectedPackages) {
-      await shellExecAsync(`npm un ${pkgName}`, { silent: true }, { loadingMsg: `Uninstalling ${pkgName}` });
+      await shellExecAsync(`npm un ${pkgName}`, { silent: true }, { loadingMsg: `uninstalling ${pkgName}` });
       console.log(colors.green(`${colors.red(pkgName)} uninstalled`));
     }
   }
