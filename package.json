@@ -58,7 +58,9 @@
     "cross-platform",
     "docker-tools",
     "port-tools",
-    "process-kill"
+    "docker-cli",
+    "awesome",
+    "cli"
   ],
   "license": "MIT",
   "main": "lib/index.js",
