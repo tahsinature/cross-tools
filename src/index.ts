@@ -37,6 +37,7 @@ const ask = async () => {
 
 class CrossTools extends Command {
   async run() {
+    console.clear();
     await this.bootApp();
 
     const { operation } = await ask();
