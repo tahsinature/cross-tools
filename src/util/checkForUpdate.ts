@@ -1,14 +1,11 @@
 import shellExecAsync from '@app/util/shellExecAsync';
-import moment from 'moment';
 import { getConfirmation } from '@app/util/myPrompts';
-import config from '@app/config';
 import semver from 'semver';
 import colors from 'colors';
+import wait from '@app/util/wait';
 
 export default async () => {
   const pkgName = 'cross-tools';
-
-  // if (!config.state.checkForLocalInstallationOnBoot) return;
 
   const output: any = await shellExecAsync('npm list -g --depth=0 --json', { silent: true }, { loadingMsg: 'Checking for local installation' });
   const installed = JSON.parse(output).dependencies[pkgName];
@@ -29,6 +26,10 @@ ${colors.yellow(`(By doing so, you don't have to download it on every execution.
         await shellExecAsync(`npm i -g ${pkgName}@latest`, { silent: true }, { loadingMsg: `Updating ${pkgName}` });
         console.log(colors.green(`✅ ${pkgName} updated to v${latestVersion}. ${colors.yellow('(Will be affected next time)')}\n`));
       }
-    } else console.log('already up to date');
+    } else {
+      console.log(colors.green(`✅ ${pkgName} already up to date (${latestVersion})`));
+    }
   }
+
+  await wait(3);
 };
