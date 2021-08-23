@@ -7,12 +7,14 @@ import DockerTools from '@app/operations/docker';
 import Network from '@app/operations/network';
 import Utility from '@app/operations/utility';
 import Settings from '@app/operations/settings';
+import Miscellaneous from '@app/operations/miscellaneous';
 
 const choices = [
   { title: 'Process & Port Tools', value: 'process-and-ports', description: 'Tools related to port and process' },
   { title: 'Docker Tools', value: 'docker', description: 'Some handy tools for docker' },
   { title: 'Network Tools', value: 'network', description: 'Network related handy tools' },
   { title: 'Utilities', value: 'utility', description: 'Some other utilities' },
+  { title: 'Miscellaneous', value: 'miscellaneous', description: 'Some other miscellaneous tools' },
   { title: 'Settings', value: 'settings', description: 'Configure your cross-tools' },
 ];
 
@@ -57,6 +59,9 @@ class CrossTools extends Command {
         break;
       case 'settings':
         await Settings.run();
+        break;
+      case 'miscellaneous':
+        await Miscellaneous.run();
         break;
       default:
         console.log(colors.cyan('Oops. Hopefully next time'));

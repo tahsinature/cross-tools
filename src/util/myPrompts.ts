@@ -32,6 +32,17 @@ export const askFuzzy = (choices: IChoice[], option: IOption) => {
   );
 };
 
+export const askTextInput = (option: IOption) => {
+  return prompts(
+    {
+      type: 'text',
+      name: 'userInput',
+      message: option.message || 'Input your data',
+    },
+    { onCancel: () => process.exit() }
+  );
+};
+
 export const getConfirmation = (message: string) => {
   return prompts(
     {
