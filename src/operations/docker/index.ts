@@ -17,7 +17,7 @@ const askOperation = () => {
         { title: 'Remove all containers', value: 'remove-all-containers', description: 'Both running & stopped' },
         { title: 'Remove all volumes', value: 'remove-all-volumes', description: 'Unnecessary volumes will be removed' },
         { title: 'Get my docker info', value: 'get-my-docker-info', description: 'Details of running docker instance' },
-        { title: 'Run an image', value: 'run-an-image', description: 'Run a pre-configured image' },
+        { title: 'Boilerplate', value: 'boilerplate', description: 'Run a pre-configured image' },
       ],
     },
     { onCancel: () => process.exit() }
@@ -99,7 +99,7 @@ class DockerTools extends Command {
         await commands.removeAllVolumes.handle();
         break;
 
-      case 'run-an-image':
+      case 'boilerplate':
         await commands.runAnImage.handle();
         break;
 
