@@ -2,13 +2,14 @@
 
 const fs = require('fs');
 const path = require('path');
-const project = path.join(__dirname, '../tsconfig.json');
-const dev = fs.existsSync(project);
+const tsConfigPath = path.join(__dirname, '..', 'tsconfig.json');
+const buildDirPath = path.join(__dirname, '..', 'lib');
 
-if (dev) {
-  require('ts-node').register({ project, compiler: 'ttypescript' });
+dir = 'lib';
+
+if (!fs.existsSync(buildDirPath)) {
+  require('ts-node').register({ project: tsConfigPath, compiler: 'ttypescript' });
+  dir = 'src';
 }
 
-require(`../${dev ? 'src' : 'lib'}`)
-  .run()
-  .catch(require('@oclif/errors/handle'));
+require(`../${dir}`).run().catch(require('@oclif/errors/handle'));
