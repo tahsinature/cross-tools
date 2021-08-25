@@ -90,8 +90,8 @@ class DockerTools extends Command {
         break;
 
       case 'remove-all-volumes&containers':
-        await commands.removeAllVolumes.handle();
         await this.execContainersAction(containers, 'remove');
+        await commands.removeAllVolumes.handle();
         break;
 
       case 'boilerplate':
