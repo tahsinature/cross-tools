@@ -14,8 +14,7 @@ const askOperation = () => {
       message: 'Select an operation',
       choices: [
         { title: 'Select containers', value: 'select-containers', description: 'List, view & take action' },
-        { title: 'Remove all containers', value: 'remove-all-containers', description: 'Both running & stopped' },
-        { title: 'Remove all volumes', value: 'remove-all-volumes', description: 'Unnecessary volumes will be removed' },
+        { title: 'Remove all containers & volumes', value: 'remove-all-volumes&containers', description: 'Remove Both running & stopped containers + volumes' },
         { title: 'Get my docker info', value: 'get-my-docker-info', description: 'Details of running docker instance' },
         { title: 'Boilerplate', value: 'boilerplate', description: 'Run a pre-configured image' },
       ],
@@ -90,13 +89,9 @@ class DockerTools extends Command {
         this.execContainersAction(selectedContainers, containerAction);
         break;
 
-      case 'remove-all-containers':
-        if (!containers.length) return console.log(colors.red('No containers found'));
-        await this.execContainersAction(containers, 'remove');
-        break;
-
-      case 'remove-all-volumes':
+      case 'remove-all-volumes&containers':
         await commands.removeAllVolumes.handle();
+        await this.execContainersAction(containers, 'remove');
         break;
 
       case 'boilerplate':
@@ -143,6 +138,8 @@ class DockerTools extends Command {
 
       console.log(msg);
     }
+
+    console.log(colors.cyan(`✅ total ${containers.length}: container(s) affected (${action}).`));
   }
 
   async getDockerInfo() {
