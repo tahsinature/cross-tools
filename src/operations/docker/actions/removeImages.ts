@@ -13,7 +13,6 @@ class DockerAction extends BaseDockerAction {
         for (const image of untagged) {
           await this.docker.getImage(image.Id).remove({ force: { true: 'true' } });
           totalRemoved++;
-          console.log(`image: ${image.RepoTags[0]} removed`);
         }
     };
 
