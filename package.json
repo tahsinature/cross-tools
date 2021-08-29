@@ -1,7 +1,7 @@
 {
   "name": "cross-tools",
   "description": "Cross-platform fundamental tools for developers",
-  "version": "1.11.3",
+  "version": "1.12.0",
   "author": "Tahsin @tahsinature",
   "bin": {
     "cross-tools": "bin/run"
