@@ -4,7 +4,7 @@ import colors from 'colors';
 
 export abstract class BaseDockerAction {
   abstract cmd: string;
-  abstract handle(): Promise<any>;
+  // abstract handle(): Promise<any>;
   docker!: Docker;
   asyncLoader = asyncLoader;
   colors = colors;

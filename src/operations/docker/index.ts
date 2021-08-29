@@ -5,6 +5,7 @@ import Docker from 'dockerode';
 import asyncLoader from '@app/util/asyncLoader';
 import removeAllVolumes from '@app/operations/docker/actions/removeAllVolumes';
 import runAnImage from '@app/operations/docker/actions/runAnImage';
+import removeImages from '@app/operations/docker/actions/removeImages';
 
 const askOperation = () => {
   return prompts(
@@ -14,7 +15,7 @@ const askOperation = () => {
       message: 'Select an operation',
       choices: [
         { title: 'Select containers', value: 'select-containers', description: 'List, view & take action' },
-        { title: 'Remove all containers & volumes', value: 'remove-all-volumes&containers', description: 'Remove Both running & stopped containers + volumes' },
+        { title: 'Clean', value: 'clean', description: 'Remove Both running & stopped containers + volumes + untagged images' },
         { title: 'Get my docker info', value: 'get-my-docker-info', description: 'Details of running docker instance' },
         { title: 'Boilerplate', value: 'boilerplate', description: 'Run a pre-configured image' },
       ],
@@ -61,6 +62,7 @@ const askContainersAction = () => {
 
 const commands = {
   removeAllVolumes,
+  removeImages,
   runAnImage,
 };
 
@@ -89,9 +91,10 @@ class DockerTools extends Command {
         this.execContainersAction(selectedContainers, containerAction);
         break;
 
-      case 'remove-all-volumes&containers':
+      case 'clean':
         await this.execContainersAction(containers, 'remove');
         await commands.removeAllVolumes.handle();
+        await commands.removeImages.handle({ untagged: true });
         break;
 
       case 'boilerplate':
