@@ -102,7 +102,6 @@ class DockerTools extends Command {
 
       case 'view-containers-networks':
         await commands.viewContainerNetworks.handle();
-        await commands.removeImages.handle({ untagged: true });
         break;
 
       case 'boilerplate':
