@@ -6,6 +6,7 @@ import asyncLoader from '@app/util/asyncLoader';
 import removeAllVolumes from '@app/operations/docker/actions/removeAllVolumes';
 import runAnImage from '@app/operations/docker/actions/runAnImage';
 import removeImages from '@app/operations/docker/actions/removeImages';
+import viewContainerNetworks from '@app/operations/docker/actions/viewContainerNetworks';
 
 const askOperation = () => {
   return prompts(
@@ -17,6 +18,7 @@ const askOperation = () => {
         { title: 'Select containers', value: 'select-containers', description: 'List, view & take action' },
         { title: 'Clean', value: 'clean', description: 'Remove Both running & stopped containers + volumes + untagged images' },
         { title: 'Get my docker info', value: 'get-my-docker-info', description: 'Details of running docker instance' },
+        { title: 'Get network info of containers', value: 'view-containers-networks', description: 'View network info of containers' },
         { title: 'Boilerplate', value: 'boilerplate', description: 'Run a pre-configured image' },
       ],
     },
@@ -64,6 +66,7 @@ const commands = {
   removeAllVolumes,
   removeImages,
   runAnImage,
+  viewContainerNetworks,
 };
 
 class DockerTools extends Command {
@@ -94,6 +97,11 @@ class DockerTools extends Command {
       case 'clean':
         await this.execContainersAction(containers, 'remove');
         await commands.removeAllVolumes.handle();
+        await commands.removeImages.handle({ untagged: true });
+        break;
+
+      case 'view-containers-networks':
+        await commands.viewContainerNetworks.handle();
         await commands.removeImages.handle({ untagged: true });
         break;
 
