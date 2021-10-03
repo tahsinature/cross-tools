@@ -7,7 +7,8 @@ class DockerAction extends BaseDockerAction {
     let totalRemoved = 0;
     const exec = async () => {
       const images = await this.docker.listImages();
-      const untagged = images.filter(image => image.RepoTags[0] === '<none>:<none>');
+
+      const untagged = images.filter(image => !image.RepoTags || image.RepoTags[0] === '<none>:<none>');
 
       if (option.untagged)
         for (const image of untagged) {
