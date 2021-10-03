@@ -8,13 +8,14 @@ class DockerAction extends BaseDockerAction {
     const exec = async () => {
       const images = await this.docker.listImages();
 
-      const untagged = images.filter(image => !image.RepoTags || image.RepoTags[0] === '<none>:<none>');
+      if (option.untagged) {
+        const untagged = images.filter(image => !image.RepoTags || image.RepoTags[0] === '<none>:<none>');
 
-      if (option.untagged)
         for (const image of untagged) {
           await this.docker.getImage(image.Id).remove({ force: { true: 'true' } });
           totalRemoved++;
         }
+      }
     };
 
     await this.asyncLoader(exec, 'Removing all untagged images');
