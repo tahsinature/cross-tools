@@ -10,9 +10,9 @@ Cross-platform fundamental tools for developers
 
 <!-- toc -->
 
-- [Usage](#usage)
-- [Features](#features)
-<!-- tocstop -->
+- [cross-tools](#cross-tools)
+  - [Usage](#usage)
+  - [Features](#features)
 
 ## Usage
 
@@ -30,6 +30,12 @@ $ npx cross-tools
 ```
 
 <!-- usagestop -->
+
+<!-- Contribute -->
+
+- `nvm use`
+- `npm i`
+- <!-- ContributeStop -->
 
 ## Features
 
