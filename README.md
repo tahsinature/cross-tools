@@ -35,6 +35,8 @@ $ npx cross-tools
 
 - `nvm use`
 - `npm i`
+- `npm run release`
+- `npm publish`
 - <!-- ContributeStop -->
 
 ## Features
